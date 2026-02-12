@@ -1,0 +1,96 @@
+{
+  "system_name": "TalentScreen AI",
+  "provider_name": "TalentTech GmbH",
+  "provider_jurisdiction": "Germany",
+  "system_version": "2.3.1",
+  "intended_purpose": "Automated screening and ranking of job applicants based on CV analysis, skills matching and structured interview assessment for enterprise recruitment workflows.",
+  "is_high_risk": true,
+  "high_risk_category": "Employment, workers management and access to self-employment",
+  "annex_iii_section": "Section 4(a)",
+  "uses_training_data": true,
+  "dataset_names": [
+    "recruitment-corpus-eu-v3",
+    "interview-transcripts-anon-v2",
+    "skills-taxonomy-esco-2024"
+  ],
+  "bias_examination_report": {
+    "covers_health_safety": true,
+    "covers_fundamental_rights": true,
+    "covers_prohibited_discrimination": true,
+    "datasets_examined": [
+      "recruitment-corpus-eu-v3",
+      "interview-transcripts-anon-v2"
+    ],
+    "examination_date": null,
+    "methodology": "Demographic parity, equalized odds, and disparate impact analysis across protected groups",
+    "findings_summary": "Minor disparities detected for age 55+ group in initial screening; mitigated via re-weighting and threshold adjustment."
+  },
+  "data_governance_practices_documented": true,
+  "training_data_relevance_documented": true,
+  "data_collection_process_documented": true,
+  "technical_documentation_exists": true,
+  "technical_documentation_url": "https://docs.talenttech.eu/talentscreen/v2.3/technical-docs",
+  "automatic_logging_enabled": true,
+  "logging_capabilities": [
+    "Input/output decision logging for every candidate evaluation",
+    "Risk event and anomaly detection alerts",
+    "Operational monitoring dashboard with real-time metrics",
+    "Decision audit trail with full provenance"
+  ],
+  "instructions_for_use_provided": true,
+  "intended_purpose_documented": true,
+  "limitations_documented": true,
+  "human_oversight_measures": [
+    "Mandatory HR reviewer approval for all rejection decisions",
+    "Escalation workflow for edge-case candidates",
+    "Real-time monitoring dashboard for recruitment managers"
+  ],
+  "human_can_override": true,
+  "human_can_interrupt": true,
+  "automation_bias_safeguards": [],
+  "accuracy_metrics_documented": true,
+  "accuracy_levels_declared": "Precision: 0.91, Recall: 0.88, F1: 0.895 (evaluated on held-out EU recruitment dataset Q4 2025)",
+  "disaggregated_performance_metrics": false,
+  "robustness_measures": [
+    "Input validation and schema enforcement",
+    "Graceful degradation with fallback to manual review on model errors",
+    "Automated data drift detection with alerting"
+  ],
+  "cybersecurity_measures": [
+    "TLS 1.3 encryption for all data in transit",
+    "AES-256 encryption for data at rest",
+    "Role-based access control with SSO integration",
+    "Annual penetration testing by external auditor"
+  ],
+  "adversarial_testing_performed": true,
+  "risk_management_system_established": true,
+  "risk_management_continuous": true,
+  "residual_risks_documented": true,
+  "risk_mitigation_measures": [
+    "Human-in-the-loop for all final hiring decisions",
+    "Quarterly bias audits by independent third party",
+    "Candidate appeal mechanism with human review"
+  ],
+  "testing_procedures_documented": true,
+  "extra": {
+    "foreseeable_misuse_documented": false,
+    "risk_measures_interaction_assessed": false,
+    "testing_metrics_defined": false,
+    "data_preprocessing_documented": false,
+    "data_representativeness_documented": true,
+    "processes_special_category_data": false,
+    "special_data_safeguards_in_place": false,
+    "technical_documentation_up_to_date": true,
+    "techdoc_demonstrates_compliance": true,
+    "techdoc_available_to_authorities": true,
+    "techdoc_contains_annex_iv_elements": false,
+    "techdoc_clear_and_comprehensive": true,
+    "logging_conforms_to_standards": false,
+    "post_market_monitoring_supported": false,
+    "system_operation_transparent": false,
+    "oversight_documented_in_instructions": true,
+    "output_interpretation_tools": true,
+    "continuous_learning": false,
+    "feedback_loop_mitigation": false
+  }
+}
