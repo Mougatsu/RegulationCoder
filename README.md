@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="image/RegulationCoder-Logo.png" alt="RegulationCoder Logo" width="600">
+</p>
+
 # RegulationCoder
 
 End-to-end pipeline that converts government regulation documents (PDF/HTML) into working compliance software. Powered by **Anthropic Claude Opus 4.6** as the AI backbone for quality assurance, deep analysis, and intelligent compliance evaluation.

@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
-  ArrowLeft,
-  Gavel,
   Scale,
   Search,
   Loader2,
@@ -22,6 +19,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PageTransition } from "@/components/motion/PageTransition";
+import { FadeIn } from "@/components/motion/FadeIn";
+import { StaggerChildren, StaggerItem } from "@/components/motion/StaggerChildren";
 import { fetchRules, type Rule } from "@/lib/api";
 
 function typeBadgeVariant(type: string) {
@@ -128,91 +128,78 @@ export default function RulesPage() {
   };
 
   const filtered = rules.filter((r) => {
-    if (filterType !== "all" && r.type !== filterType) return false;
-    if (filterSeverity !== "all" && r.severity !== filterSeverity) return false;
+    const ruleAny = r as any;
+    if (filterType !== "all" && ruleAny.type !== filterType) return false;
+    if (filterSeverity !== "all" && ruleAny.severity !== filterSeverity) return false;
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return (
-      r.description.toLowerCase().includes(q) ||
-      r.rule_id.toLowerCase().includes(q) ||
-      r.article_number.toLowerCase().includes(q)
+      ruleAny.description?.toLowerCase().includes(q) ||
+      ruleAny.rule_id?.toLowerCase().includes(q) ||
+      ruleAny.article_number?.toLowerCase().includes(q)
     );
   });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center gap-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Gavel className="h-5 w-5 text-primary" />
-            <span className="font-semibold">RegulationCoder</span>
+    <PageTransition>
+      <div className="container py-8">
+        <FadeIn>
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
+                Compliance Rules
+              </h1>
+              <p className="mt-1 text-muted-foreground">
+                Generated executable compliance checks with severity levels
+              </p>
+            </div>
+            <Badge variant="outline" className="self-start">
+              {filtered.length} rule{filtered.length !== 1 ? "s" : ""}
+            </Badge>
           </div>
-          <span className="text-muted-foreground">/</span>
-          <span className="text-sm font-medium">Rules</span>
-        </div>
-      </header>
-
-      <main className="container flex-1 py-8">
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Compliance Rules
-            </h1>
-            <p className="mt-1 text-muted-foreground">
-              Generated executable compliance checks with severity levels
-            </p>
-          </div>
-          <Badge variant="outline" className="self-start">
-            {filtered.length} rule{filtered.length !== 1 ? "s" : ""}
-          </Badge>
-        </div>
+        </FadeIn>
 
         {/* Filters */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search rules by description, ID, or article..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-md border bg-background pl-10 pr-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-          <div className="flex gap-2">
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+        <FadeIn delay={0.05}>
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search rules by description, ID, or article..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-xl border bg-background pl-10 pr-4 py-2.5 text-sm placeholder:text-muted-foreground transition-colors"
+              />
+            </div>
+            <div className="flex gap-2">
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="rounded-xl border bg-background px-3 py-2.5 text-sm"
+                >
+                  <option value="all">All Types</option>
+                  <option value="automated">Automated</option>
+                  <option value="semi_automated">Semi-Automated</option>
+                  <option value="manual">Manual</option>
+                </select>
+              </div>
               <select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                className="rounded-md border bg-background px-3 py-2 text-sm"
+                value={filterSeverity}
+                onChange={(e) => setFilterSeverity(e.target.value)}
+                className="rounded-xl border bg-background px-3 py-2.5 text-sm"
               >
-                <option value="all">All Types</option>
-                <option value="automated">Automated</option>
-                <option value="semi_automated">Semi-Automated</option>
-                <option value="manual">Manual</option>
+                <option value="all">All Severities</option>
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
               </select>
             </div>
-            <select
-              value={filterSeverity}
-              onChange={(e) => setFilterSeverity(e.target.value)}
-              className="rounded-md border bg-background px-3 py-2 text-sm"
-            >
-              <option value="all">All Severities</option>
-              <option value="critical">Critical</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
           </div>
-        </div>
+        </FadeIn>
 
         {/* Loading */}
         {loading && (
@@ -233,7 +220,7 @@ export default function RulesPage() {
 
         {/* Rules Grid */}
         {!loading && !error && (
-          <div className="space-y-4">
+          <div>
             {filtered.length === 0 ? (
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
@@ -247,88 +234,92 @@ export default function RulesPage() {
                 </CardContent>
               </Card>
             ) : (
-              filtered.map((rule) => (
-                <Card
-                  key={rule.id}
-                  className="transition-colors hover:border-primary/30"
-                >
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
-                            {rule.rule_id}
-                          </code>
-                          <Badge variant={typeBadgeVariant(rule.type)}>
-                            {typeLabel(rule.type)}
-                          </Badge>
-                          <Badge
-                            variant={severityBadgeVariant(rule.severity)}
-                          >
-                            <div
-                              className={`mr-1 h-2 w-2 rounded-full ${severityColor(
-                                rule.severity
-                              )}`}
-                            />
-                            {rule.severity.charAt(0).toUpperCase() +
-                              rule.severity.slice(1)}
-                          </Badge>
-                          {rule.test_result && (
-                            <Badge
-                              variant={testResultBadge(rule.test_result)}
-                            >
-                              Test: {rule.test_result.toUpperCase()}
+              <StaggerChildren className="space-y-4" staggerDelay={0.04}>
+                {filtered.map((rule) => {
+                  const ruleAny = rule as any;
+                  return (
+                    <StaggerItem key={rule.id}>
+                      <Card className="card-hover-glow">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 flex-wrap mb-2">
+                                <code className="rounded-lg bg-muted px-2 py-0.5 font-mono text-xs">
+                                  {ruleAny.rule_id}
+                                </code>
+                                <Badge variant={typeBadgeVariant(ruleAny.type)}>
+                                  {typeLabel(ruleAny.type)}
+                                </Badge>
+                                <Badge
+                                  variant={severityBadgeVariant(ruleAny.severity)}
+                                >
+                                  <div
+                                    className={`mr-1 h-2 w-2 rounded-full ${severityColor(
+                                      ruleAny.severity
+                                    )}`}
+                                  />
+                                  {ruleAny.severity?.charAt(0).toUpperCase() +
+                                    ruleAny.severity?.slice(1)}
+                                </Badge>
+                                {ruleAny.test_result && (
+                                  <Badge
+                                    variant={testResultBadge(ruleAny.test_result)}
+                                  >
+                                    Test: {ruleAny.test_result.toUpperCase()}
+                                  </Badge>
+                                )}
+                              </div>
+                              <CardTitle className="text-base">
+                                {ruleAny.description}
+                              </CardTitle>
+                            </div>
+                            <Badge variant="outline" className="shrink-0 text-xs">
+                              Art. {ruleAny.article_number}
                             </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center justify-between text-xs text-muted-foreground">
+                            <span>
+                              Requirement:{" "}
+                              <code className="rounded-lg bg-muted px-1.5 py-0.5 font-mono">
+                                {rule.requirement_id}
+                              </code>
+                            </span>
+                            {ruleAny.check_code && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1 text-xs"
+                                onClick={() => toggleCode(rule.id)}
+                              >
+                                <Code2 className="h-3.5 w-3.5" />
+                                {expandedCode.has(rule.id) ? "Hide" : "Show"} Code
+                                {expandedCode.has(rule.id) ? (
+                                  <ChevronUp className="h-3 w-3" />
+                                ) : (
+                                  <ChevronDown className="h-3 w-3" />
+                                )}
+                              </Button>
+                            )}
+                          </div>
+                          {expandedCode.has(rule.id) && ruleAny.check_code && (
+                            <div className="mt-3 rounded-xl bg-muted p-4 overflow-x-auto">
+                              <pre className="text-xs font-mono text-foreground whitespace-pre-wrap">
+                                {ruleAny.check_code}
+                              </pre>
+                            </div>
                           )}
-                        </div>
-                        <CardTitle className="text-base">
-                          {rule.description}
-                        </CardTitle>
-                      </div>
-                      <Badge variant="outline" className="shrink-0 text-xs">
-                        Art. {rule.article_number}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>
-                        Requirement:{" "}
-                        <code className="rounded bg-muted px-1 py-0.5 font-mono">
-                          {rule.requirement_id}
-                        </code>
-                      </span>
-                      {rule.check_code && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="gap-1 text-xs"
-                          onClick={() => toggleCode(rule.id)}
-                        >
-                          <Code2 className="h-3.5 w-3.5" />
-                          {expandedCode.has(rule.id) ? "Hide" : "Show"} Code
-                          {expandedCode.has(rule.id) ? (
-                            <ChevronUp className="h-3 w-3" />
-                          ) : (
-                            <ChevronDown className="h-3 w-3" />
-                          )}
-                        </Button>
-                      )}
-                    </div>
-                    {expandedCode.has(rule.id) && rule.check_code && (
-                      <div className="mt-3 rounded-md bg-muted p-4 overflow-x-auto">
-                        <pre className="text-xs font-mono text-foreground whitespace-pre-wrap">
-                          {rule.check_code}
-                        </pre>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))
+                        </CardContent>
+                      </Card>
+                    </StaggerItem>
+                  );
+                })}
+              </StaggerChildren>
             )}
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </PageTransition>
   );
 }

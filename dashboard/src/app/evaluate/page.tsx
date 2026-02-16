@@ -2,10 +2,9 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
-  ArrowLeft,
   Brain,
-  Gavel,
   Play,
   Upload,
   Loader2,
@@ -13,7 +12,6 @@ import {
   CheckCircle2,
   XCircle,
   FileJson,
-  FileText,
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,6 +33,8 @@ import {
 import { ScoreCard } from "@/components/ScoreCard";
 import { ComplianceChart } from "@/components/ComplianceChart";
 import { RuleResultRow } from "@/components/RuleResultRow";
+import { PageTransition } from "@/components/motion/PageTransition";
+import { FadeIn } from "@/components/motion/FadeIn";
 import {
   evaluateProfile,
   requestAIAnalysis,
@@ -261,10 +261,6 @@ export default function EvaluatePage() {
     try {
       const res = await requestAIAnalysis(profile);
       setAiAnalysis(res);
-      // If we don't have a deterministic result yet, populate it from the AI response
-      if (!result) {
-        // The AI endpoint also runs deterministic evaluation internally
-      }
     } catch (err) {
       setAiError(err instanceof Error ? err.message : "AI analysis failed");
     } finally {
@@ -290,271 +286,268 @@ export default function EvaluatePage() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center gap-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Gavel className="h-5 w-5 text-primary" />
-            <span className="font-semibold">RegulationCoder</span>
+    <PageTransition>
+      <div className="container py-8">
+        <FadeIn>
+          <div className="mb-8">
+            <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
+              Compliance Evaluation
+            </h1>
+            <p className="mt-2 text-muted-foreground">
+              Describe your AI system and evaluate it against EU AI Act requirements
+            </p>
           </div>
-          <span className="text-muted-foreground">/</span>
-          <span className="text-sm font-medium">Evaluate</span>
-        </div>
-      </header>
-
-      <main className="container flex-1 py-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold tracking-tight">Compliance Evaluation</h1>
-          <p className="mt-1 text-muted-foreground">
-            Describe your AI system and evaluate it against EU AI Act requirements
-          </p>
-        </div>
+        </FadeIn>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
           {/* Left: Profile Form */}
           <div className="space-y-6">
             {/* System Info Card */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>System Information</CardTitle>
-                    <CardDescription>Basic details about the AI system being evaluated</CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="gap-2" onClick={loadDemoProfile}>
-                      <Sparkles className="h-4 w-4" />
-                      Load Demo
-                    </Button>
-                    <input ref={fileInputRef} type="file" accept=".json" className="hidden" onChange={handleImportJSON} />
-                    <Button variant="outline" size="sm" className="gap-2" onClick={() => fileInputRef.current?.click()}>
-                      <Upload className="h-4 w-4" />
-                      Import JSON
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">System Name *</label>
-                    <input
-                      type="text"
-                      value={profile.system_name}
-                      onChange={(e) => updateField("system_name", e.target.value)}
-                      className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                      placeholder="e.g. TalentScreen AI"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Provider Name *</label>
-                    <input
-                      type="text"
-                      value={profile.provider_name}
-                      onChange={(e) => updateField("provider_name", e.target.value)}
-                      className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                      placeholder="e.g. TalentTech GmbH"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Intended Purpose *</label>
-                  <input
-                    type="text"
-                    value={profile.intended_purpose}
-                    onChange={(e) => updateField("intended_purpose", e.target.value)}
-                    className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                    placeholder="e.g. Automated screening and ranking of job applicants"
-                  />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Jurisdiction</label>
-                    <input
-                      type="text"
-                      value={profile.provider_jurisdiction ?? ""}
-                      onChange={(e) => updateField("provider_jurisdiction", e.target.value)}
-                      className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                      placeholder="e.g. Germany"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">High-Risk Category</label>
-                    <input
-                      type="text"
-                      value={profile.high_risk_category ?? ""}
-                      onChange={(e) => updateField("high_risk_category", e.target.value)}
-                      className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                      placeholder="e.g. Employment"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">System Version</label>
-                    <input
-                      type="text"
-                      value={profile.system_version ?? ""}
-                      onChange={(e) => updateField("system_version", e.target.value)}
-                      className="mt-1 w-full rounded-md border bg-background px-3 py-2 text-sm"
-                      placeholder="e.g. 2.1.0"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between rounded-md border bg-muted/20 p-3">
-                  <label className="text-sm font-medium">High-Risk AI System</label>
-                  <button
-                    type="button"
-                    onClick={() => updateField("is_high_risk", !profile.is_high_risk)}
-                    className={`relative h-6 w-11 rounded-full transition-colors ${profile.is_high_risk ? "bg-red-500" : "bg-muted-foreground/30"}`}
-                  >
-                    <span className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${profile.is_high_risk ? "translate-x-5" : "translate-x-0"}`} />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Article Sections */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Compliance Profile</CardTitle>
-                <CardDescription>Toggle the compliance controls that apply to your system</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                {FORM_SECTIONS.map((section) => (
-                  <div key={section.article}>
-                    <h3 className="mb-1 text-sm font-semibold text-primary">{section.article}</h3>
-                    <p className="mb-3 text-xs text-muted-foreground">{section.description}</p>
-                    <div className="space-y-2">
-                      {section.fields.map((field) => (
-                        <div
-                          key={field.key}
-                          className="flex items-center justify-between rounded-md border bg-muted/20 p-3"
-                        >
-                          <label className="text-sm cursor-pointer">{field.label}</label>
-                          <button
-                            type="button"
-                            onClick={() => updateField(field.key, !(profile[field.key] as boolean))}
-                            className={`relative h-6 w-11 rounded-full transition-colors ${
-                              (profile[field.key] as boolean) ? "bg-emerald-500" : "bg-muted-foreground/30"
-                            }`}
-                          >
-                            <span
-                              className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
-                                (profile[field.key] as boolean) ? "translate-x-5" : "translate-x-0"
-                              }`}
-                            />
-                          </button>
-                        </div>
-                      ))}
+            <FadeIn delay={0.05}>
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div>
+                      <CardTitle>System Information</CardTitle>
+                      <CardDescription>Basic details about the AI system being evaluated</CardDescription>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" className="gap-2" onClick={loadDemoProfile}>
+                        <Sparkles className="h-4 w-4" />
+                        Load Demo
+                      </Button>
+                      <input ref={fileInputRef} type="file" accept=".json" className="hidden" onChange={handleImportJSON} />
+                      <Button variant="outline" size="sm" className="gap-2" onClick={() => fileInputRef.current?.click()}>
+                        <Upload className="h-4 w-4" />
+                        Import JSON
+                      </Button>
                     </div>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">System Name *</label>
+                      <input
+                        type="text"
+                        value={profile.system_name}
+                        onChange={(e) => updateField("system_name", e.target.value)}
+                        className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                        placeholder="e.g. TalentScreen AI"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Provider Name *</label>
+                      <input
+                        type="text"
+                        value={profile.provider_name}
+                        onChange={(e) => updateField("provider_name", e.target.value)}
+                        className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                        placeholder="e.g. TalentTech GmbH"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Intended Purpose *</label>
+                    <input
+                      type="text"
+                      value={profile.intended_purpose}
+                      onChange={(e) => updateField("intended_purpose", e.target.value)}
+                      className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                      placeholder="e.g. Automated screening and ranking of job applicants"
+                    />
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">Jurisdiction</label>
+                      <input
+                        type="text"
+                        value={profile.provider_jurisdiction ?? ""}
+                        onChange={(e) => updateField("provider_jurisdiction", e.target.value)}
+                        className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                        placeholder="e.g. Germany"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">High-Risk Category</label>
+                      <input
+                        type="text"
+                        value={profile.high_risk_category ?? ""}
+                        onChange={(e) => updateField("high_risk_category", e.target.value)}
+                        className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                        placeholder="e.g. Employment"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-muted-foreground">System Version</label>
+                      <input
+                        type="text"
+                        value={profile.system_version ?? ""}
+                        onChange={(e) => updateField("system_version", e.target.value)}
+                        className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm transition-colors"
+                        placeholder="e.g. 2.1.0"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between rounded-xl border bg-muted/20 p-3">
+                    <label className="text-sm font-medium">High-Risk AI System</label>
+                    <button
+                      type="button"
+                      onClick={() => updateField("is_high_risk", !profile.is_high_risk)}
+                      className={`relative h-6 w-11 rounded-full transition-colors ${profile.is_high_risk ? "bg-red-500" : "bg-muted-foreground/30"}`}
+                    >
+                      <span className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${profile.is_high_risk ? "translate-x-5" : "translate-x-0"}`} />
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            </FadeIn>
+
+            {/* Article Sections */}
+            <FadeIn delay={0.1}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Compliance Profile</CardTitle>
+                  <CardDescription>Toggle the compliance controls that apply to your system</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                  {FORM_SECTIONS.map((section) => (
+                    <div key={section.article}>
+                      <h3 className="mb-1 text-sm font-semibold text-primary">{section.article}</h3>
+                      <p className="mb-3 text-xs text-muted-foreground">{section.description}</p>
+                      <div className="space-y-2">
+                        {section.fields.map((field) => (
+                          <div
+                            key={field.key}
+                            className="flex items-center justify-between rounded-xl border bg-muted/20 p-3 transition-colors hover:bg-muted/30"
+                          >
+                            <label className="text-sm cursor-pointer">{field.label}</label>
+                            <button
+                              type="button"
+                              onClick={() => updateField(field.key, !(profile[field.key] as boolean))}
+                              className={`relative h-6 w-11 rounded-full transition-colors ${
+                                (profile[field.key] as boolean) ? "bg-emerald-500" : "bg-muted-foreground/30"
+                              }`}
+                            >
+                              <span
+                                className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+                                  (profile[field.key] as boolean) ? "translate-x-5" : "translate-x-0"
+                                }`}
+                              />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </FadeIn>
           </div>
 
           {/* Right: Action Panel */}
           <div className="space-y-6">
-            <Card className="sticky top-24">
-              <CardHeader>
-                <CardTitle className="text-lg">Run Evaluation</CardTitle>
-                <CardDescription>
-                  Evaluate against all 53 EU AI Act compliance rules
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {profile.system_name && (
-                  <div className="rounded-md bg-muted/50 p-3">
-                    <div className="text-xs text-muted-foreground mb-1">System</div>
-                    <div className="font-semibold">{profile.system_name}</div>
-                    <div className="text-xs text-muted-foreground">{profile.provider_name}</div>
-                  </div>
-                )}
-
-                <div className="rounded-md bg-muted/50 p-3">
-                  <div className="text-xs text-muted-foreground mb-1">Profile Status</div>
-                  <div className="text-2xl font-bold">
-                    {Object.values(profile).filter((v) => v === true).length}
-                    <span className="text-sm font-normal text-muted-foreground"> boolean fields enabled</span>
-                  </div>
-                </div>
-
-                <Button className="w-full gap-2" size="lg" disabled={loading} onClick={handleEvaluate}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Evaluating...
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-5 w-5" />
-                      Run Evaluation
-                    </>
+            <FadeIn delay={0.15} direction="right">
+              <Card className="sticky top-24">
+                <CardHeader>
+                  <CardTitle className="text-lg">Run Evaluation</CardTitle>
+                  <CardDescription>
+                    Evaluate against all 53 EU AI Act compliance rules
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {profile.system_name && (
+                    <div className="rounded-xl bg-muted/50 p-3">
+                      <div className="text-xs text-muted-foreground mb-1">System</div>
+                      <div className="font-semibold">{profile.system_name}</div>
+                      <div className="text-xs text-muted-foreground">{profile.provider_name}</div>
+                    </div>
                   )}
-                </Button>
 
-                <Button
-                  className="w-full gap-2"
-                  size="lg"
-                  variant="outline"
-                  disabled={aiLoading || loading}
-                  onClick={handleAIAnalysis}
-                >
-                  {aiLoading ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Analyzing with Claude 4.6...
-                    </>
-                  ) : (
-                    <>
-                      <Brain className="h-5 w-5" />
-                      Deep AI Analysis (Claude Opus 4.6)
-                    </>
-                  )}
-                </Button>
-                <p className="text-[10px] text-muted-foreground text-center">
-                  Powered by Anthropic Claude Opus 4.6
-                </p>
-
-                {aiError && (
-                  <div className="flex items-center gap-2 rounded-md border border-red-500/30 bg-red-500/10 p-3">
-                    <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
-                    <span className="text-xs text-red-500">{aiError}</span>
-                  </div>
-                )}
-
-                {error && (
-                  <div className="flex items-center gap-2 rounded-md border border-red-500/30 bg-red-500/10 p-3">
-                    <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
-                    <span className="text-xs text-red-500">{error}</span>
-                  </div>
-                )}
-
-                {result && (
-                  <div className="space-y-3 pt-2">
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1 gap-2" onClick={exportJSON}>
-                        <FileJson className="h-4 w-4" />
-                        Export JSON
-                      </Button>
+                  <div className="rounded-xl bg-muted/50 p-3">
+                    <div className="text-xs text-muted-foreground mb-1">Profile Status</div>
+                    <div className="text-2xl font-bold font-display">
+                      {Object.values(profile).filter((v) => v === true).length}
+                      <span className="text-sm font-normal font-body text-muted-foreground"> boolean fields enabled</span>
                     </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
+
+                  <Button className="w-full gap-2 rounded-xl" size="lg" disabled={loading} onClick={handleEvaluate}>
+                    {loading ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Evaluating...
+                      </>
+                    ) : (
+                      <>
+                        <Play className="h-5 w-5" />
+                        Run Evaluation
+                      </>
+                    )}
+                  </Button>
+
+                  <Button
+                    className="w-full gap-2 rounded-xl"
+                    size="lg"
+                    variant="outline"
+                    disabled={aiLoading || loading}
+                    onClick={handleAIAnalysis}
+                  >
+                    {aiLoading ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Analyzing with Claude 4.6...
+                      </>
+                    ) : (
+                      <>
+                        <Brain className="h-5 w-5" />
+                        Deep AI Analysis (Claude Opus 4.6)
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-[10px] text-muted-foreground text-center">
+                    Powered by Anthropic Claude Opus 4.6
+                  </p>
+
+                  {aiError && (
+                    <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                      <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
+                      <span className="text-xs text-red-500">{aiError}</span>
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                      <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
+                      <span className="text-xs text-red-500">{error}</span>
+                    </div>
+                  )}
+
+                  {result && (
+                    <div className="space-y-3 pt-2">
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" className="flex-1 gap-2 rounded-xl" onClick={exportJSON}>
+                          <FileJson className="h-4 w-4" />
+                          Export JSON
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </FadeIn>
           </div>
         </div>
 
         {/* Results Section */}
         {result && (
-          <div className="mt-12 space-y-8">
-            <h2 className="text-2xl font-bold tracking-tight">Evaluation Results</h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="mt-12 space-y-8"
+          >
+            <h2 className="font-display text-2xl font-bold tracking-tight">Evaluation Results</h2>
 
             {/* Scorecard + Stats */}
             <div className="grid gap-6 md:grid-cols-[1fr_1fr_400px]">
@@ -568,24 +561,24 @@ export default function EvaluatePage() {
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-1">
                       <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                      <span className="text-2xl font-bold text-emerald-500">{result.summary.passed}</span>
+                      <span className="text-2xl font-bold font-display text-emerald-500">{result.summary.passed}</span>
                     </div>
                     <span className="text-xs text-muted-foreground">Passed</span>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-1">
                       <XCircle className="h-4 w-4 text-red-500" />
-                      <span className="text-2xl font-bold text-red-500">{result.summary.failed}</span>
+                      <span className="text-2xl font-bold font-display text-red-500">{result.summary.failed}</span>
                     </div>
                     <span className="text-xs text-muted-foreground">Failed</span>
                   </div>
                   <div className="text-center">
-                    <span className="text-2xl font-bold text-muted-foreground">{result.summary.not_applicable}</span>
+                    <span className="text-2xl font-bold font-display text-muted-foreground">{result.summary.not_applicable}</span>
                     <br />
                     <span className="text-xs text-muted-foreground">N/A</span>
                   </div>
                   <div className="text-center">
-                    <span className="text-2xl font-bold text-amber-500">{result.summary.manual_review}</span>
+                    <span className="text-2xl font-bold font-display text-amber-500">{result.summary.manual_review}</span>
                     <br />
                     <span className="text-xs text-muted-foreground">Manual</span>
                   </div>
@@ -608,7 +601,7 @@ export default function EvaluatePage() {
 
             {/* Verdict Banner */}
             <div
-              className={`rounded-lg border p-4 text-center ${
+              className={`rounded-xl border p-4 text-center ${
                 result.overall_verdict === "compliant"
                   ? "border-emerald-500/30 bg-emerald-500/10"
                   : result.overall_verdict === "partial_compliance"
@@ -616,7 +609,7 @@ export default function EvaluatePage() {
                   : "border-red-500/30 bg-red-500/10"
               }`}
             >
-              <div className="text-lg font-bold">
+              <div className="text-lg font-bold font-display">
                 {result.overall_verdict.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
               </div>
               <div className="text-sm text-muted-foreground">{result.system_name} by {result.provider_name}</div>
@@ -631,7 +624,7 @@ export default function EvaluatePage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {result.critical_gaps.map((gap, i) => (
-                    <div key={`c${i}`} className="rounded-lg border-l-4 border-l-red-500 bg-red-500/5 p-4">
+                    <div key={`c${i}`} className="rounded-xl border-l-4 border-l-red-500 bg-red-500/5 p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="danger">CRITICAL</Badge>
                         <span className="text-sm font-semibold">{gap.article_ref}</span>
@@ -642,7 +635,7 @@ export default function EvaluatePage() {
                     </div>
                   ))}
                   {result.high_gaps.map((gap, i) => (
-                    <div key={`h${i}`} className="rounded-lg border-l-4 border-l-orange-500 bg-orange-500/5 p-4">
+                    <div key={`h${i}`} className="rounded-xl border-l-4 border-l-orange-500 bg-orange-500/5 p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="warning">HIGH</Badge>
                         <span className="text-sm font-semibold">{gap.article_ref}</span>
@@ -653,7 +646,7 @@ export default function EvaluatePage() {
                     </div>
                   ))}
                   {result.medium_gaps.map((gap, i) => (
-                    <div key={`m${i}`} className="rounded-lg border-l-4 border-l-amber-500 bg-amber-500/5 p-4">
+                    <div key={`m${i}`} className="rounded-xl border-l-4 border-l-amber-500 bg-amber-500/5 p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="secondary">MEDIUM</Badge>
                         <span className="text-sm font-semibold">{gap.article_ref}</span>
@@ -695,18 +688,23 @@ export default function EvaluatePage() {
             </Card>
 
             {/* Disclaimer */}
-            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4">
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
               <p className="text-xs text-muted-foreground">{result.disclaimer}</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {aiAnalysis && (
-          <div className="mt-12 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="mt-12 space-y-8"
+          >
             <div className="flex items-center gap-3">
               <Brain className="h-7 w-7 text-primary" />
               <div>
-                <h2 className="text-2xl font-bold tracking-tight">AI Analysis</h2>
+                <h2 className="font-display text-2xl font-bold tracking-tight">AI Analysis</h2>
                 <p className="text-sm text-muted-foreground">
                   Deep compliance analysis by Claude Opus 4.6
                 </p>
@@ -781,7 +779,7 @@ export default function EvaluatePage() {
                   {aiAnalysis.analysis.insights.map((insight, i) => (
                     <div
                       key={i}
-                      className={`rounded-lg border-l-4 p-4 ${
+                      className={`rounded-xl border-l-4 p-4 ${
                         insight.severity === "critical"
                           ? "border-l-red-500 bg-red-500/5"
                           : insight.severity === "high"
@@ -813,7 +811,7 @@ export default function EvaluatePage() {
                           <ul className="mt-1 space-y-1">
                             {insight.recommendations.map((rec, j) => (
                               <li key={j} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                                <span className="text-primary mt-0.5">→</span>
+                                <span className="text-primary mt-0.5">&rarr;</span>
                                 <span>{rec}</span>
                               </li>
                             ))}
@@ -861,9 +859,9 @@ export default function EvaluatePage() {
                 </CardContent>
               </Card>
             )}
-          </div>
+          </motion.div>
         )}
-      </main>
-    </div>
+      </div>
+    </PageTransition>
   );
 }

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compliance Report — TalentScreen AI</title>
+<style>
+  /* ---------- Reset & base ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+    background: #f8fafc;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ---------- Page wrapper ---------- */
+  .page { max-width: 960px; margin: 0 auto; padding: 40px 32px; }
+
+  /* ---------- Header ---------- */
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: #fff;
+    padding: 36px 40px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 4px; }
+  .header .subtitle { opacity: 0.85; font-size: 0.95rem; }
+  .header .meta { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 24px; font-size: 0.9rem; }
+  .header .meta span { opacity: 0.9; }
+
+  /* ---------- Scorecard ---------- */
+  .scorecard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .score-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .score-box .value { font-size: 2rem; font-weight: 700; }
+  .score-box .label { font-size: 0.82rem; color: #64748b; margin-top: 4px; }
+  .score-box.pass .value { color: #16a34a; }
+  .score-box.fail .value { color: #dc2626; }
+  .score-box.na .value   { color: #6b7280; }
+  .score-box.manual .value { color: #d97706; }
+  .score-box.total .value  { color: #2563eb; }
+
+  /* ---------- Verdict badge ---------- */
+  .verdict-banner {
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .verdict-compliant     { background: #dcfce7; color: #15803d; }
+  .verdict-partial       { background: #fef9c3; color: #a16207; }
+  .verdict-non_compliant { background: #fee2e2; color: #b91c1c; }
+
+  /* ---------- Section ---------- */
+  .section { margin-bottom: 36px; }
+  .section h2 {
+    font-size: 1.2rem; font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    color: #1e3a5f;
+  }
+
+  /* ---------- Table ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  th { background: #f1f5f9; font-weight: 600; color: #475569; }
+  tr:hover td { background: #f8fafc; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .badge-pass   { background: #dcfce7; color: #15803d; }
+  .badge-fail   { background: #fee2e2; color: #b91c1c; }
+  .badge-na     { background: #f3f4f6; color: #6b7280; }
+  .badge-manual { background: #fef3c7; color: #92400e; }
+
+  .severity-critical { color: #b91c1c; font-weight: 700; }
+  .severity-high     { color: #dc2626; }
+  .severity-medium   { color: #d97706; }
+  .severity-low      { color: #6b7280; }
+
+  /* ---------- Gap card ---------- */
+  .gap-card {
+    background: #fff;
+    border-left: 4px solid #dc2626;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .gap-card.high { border-left-color: #f97316; }
+  .gap-card.medium { border-left-color: #eab308; }
+  .gap-card .gap-title { font-weight: 600; margin-bottom: 4px; }
+  .gap-card .gap-meta { font-size: 0.82rem; color: #64748b; margin-bottom: 6px; }
+  .gap-card .gap-remediation { font-size: 0.88rem; color: #334155; }
+
+  /* ---------- Disclaimer ---------- */
+  .disclaimer {
+    margin-top: 40px;
+    padding: 20px 24px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    color: #92400e;
+    line-height: 1.7;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Compliance Report</h1>
+    <div class="subtitle">eu-ai-act-v1</div>
+    <div class="meta">
+      <span><strong>System:</strong> TalentScreen AI</span>
+      <span><strong>Provider:</strong> TalentTech GmbH</span>
+      <span><strong>Date:</strong> 2026-02-12 22:37 UTC</span>
+      <span><strong>Report ID:</strong> RPT-eu-ai-act-v1-20260212223719</span>
+    </div>
+  </div>
+
+  <!-- Verdict -->
+  
+  <div class="verdict-banner verdict-partial">
+    Overall Verdict: Partial Compliance
+    &nbsp;&mdash;&nbsp; Score: 78.4%
+  </div>
+
+  <!-- Scorecard -->
+  <div class="scorecard">
+    <div class="score-box total"><div class="value">53</div><div class="label">Total Rules</div></div>
+    <div class="score-box pass"><div class="value">40</div><div class="label">Passed</div></div>
+    <div class="score-box fail"><div class="value">11</div><div class="label">Failed</div></div>
+    <div class="score-box na"><div class="value">2</div><div class="label">N/A</div></div>
+    <div class="score-box manual"><div class="value">0</div><div class="label">Manual Review</div></div>
+  </div>
+
+  <!-- Rule Results Table -->
+  <div class="section">
+    <h2>Rule Results</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Rule ID</th>
+          <th>Title</th>
+          <th>Verdict</th>
+          <th>Severity</th>
+          <th>Article</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-01-001</code></td>
+          <td>Risk management system must be established</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-02-001</code></td>
+          <td>Risk management must be continuous and iterative</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-02A-001</code></td>
+          <td>Known and foreseeable risks must be identified</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-02B-001</code></td>
+          <td>Foreseeable misuse risks must be evaluated</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-02C-001</code></td>
+          <td>Risk management measures must be adopted</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-03-001</code></td>
+          <td>Risk measures interaction must be assessed</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-05-001</code></td>
+          <td>System testing procedures must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-009-06-001</code></td>
+          <td>Testing must use defined metrics and thresholds</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 9</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-02-001</code></td>
+          <td>Data governance practices must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-02A-001</code></td>
+          <td>Data collection process must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-02B-001</code></td>
+          <td>Data preprocessing operations must be documented</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-03-001</code></td>
+          <td>Training data relevance must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-04-001</code></td>
+          <td>Data representativeness for deployment context must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-02F-001</code></td>
+          <td>Bias examination must cover health, safety, fundamental rights and discrimination</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-05-001</code></td>
+          <td>Special category data processing must have appropriate safeguards</td>
+          <td>
+            
+              <span class="badge badge-na">N/A</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-010-01-001</code></td>
+          <td>Datasets meeting quality criteria must be used</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 10</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01-001</code></td>
+          <td>Technical documentation must exist before market placement</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01-002</code></td>
+          <td>Technical documentation must be kept up to date</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01A-001</code></td>
+          <td>Documentation must demonstrate compliance</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01B-001</code></td>
+          <td>Documentation must be available to authorities</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01C-001</code></td>
+          <td>Documentation must contain Annex IV minimum elements</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01D-001</code></td>
+          <td>Documentation must be clear and comprehensive</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-011-01-003</code></td>
+          <td>Technical documentation must be accessible at a known location</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 11</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-01-001</code></td>
+          <td>Automatic event logging must be enabled</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-02-001</code></td>
+          <td>Risk-relevant events must be logged</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-03-001</code></td>
+          <td>Logging must conform to recognised standards</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-04-001</code></td>
+          <td>Logging must ensure lifecycle traceability</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-04A-001</code></td>
+          <td>Logging must enable operational monitoring</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-04B-001</code></td>
+          <td>Logging must facilitate post-market monitoring</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-012-04C-001</code></td>
+          <td>Usage periods and verification personnel must be recorded</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 12</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-01-001</code></td>
+          <td>System operation must be sufficiently transparent</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-02-001</code></td>
+          <td>Instructions for use must be provided</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-03A-001</code></td>
+          <td>Provider identity must be included in instructions</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-03B-001</code></td>
+          <td>System capabilities and limitations must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-03D-001</code></td>
+          <td>Human oversight measures must be documented in instructions</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-03E-001</code></td>
+          <td>Intended purpose must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-013-03B-002</code></td>
+          <td>Accuracy levels must be declared in instructions</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 13</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-01-001</code></td>
+          <td>Human oversight measures must be implemented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-02-001</code></td>
+          <td>Oversight must minimise risks effectively</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-04A-001</code></td>
+          <td>Oversight personnel must understand system capabilities and limitations</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-04B-001</code></td>
+          <td>Automation bias safeguards must be implemented</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-04C-001</code></td>
+          <td>Output interpretation tools must be available</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-04D-001</code></td>
+          <td>Human override capability must be available</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-04E-001</code></td>
+          <td>System interruption capability must be available</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-014-05-001</code></td>
+          <td>Oversight personnel must be able to monitor system in use</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 14</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-01-001</code></td>
+          <td>Accuracy metrics must be documented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-02-001</code></td>
+          <td>Accuracy levels must be declared in instructions</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-02A-001</code></td>
+          <td>Disaggregated performance metrics must be provided</td>
+          <td>
+            
+              <span class="badge badge-fail">Fail</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-03-001</code></td>
+          <td>Robustness measures must be implemented</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-03A-001</code></td>
+          <td>Technical and organisational robustness measures must be taken</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-medium">Medium</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-04-001</code></td>
+          <td>Adversarial testing must be performed</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-04A-001</code></td>
+          <td>Cybersecurity measures must be appropriate</td>
+          <td>
+            
+              <span class="badge badge-pass">Pass</span>
+            
+          </td>
+          <td><span class="severity-critical">Critical</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+        <tr>
+          <td><code>RULE-EU-AI-ACT-015-05-001</code></td>
+          <td>Feedback loop risks must be mitigated for continuous learning systems</td>
+          <td>
+            
+              <span class="badge badge-na">N/A</span>
+            
+          </td>
+          <td><span class="severity-high">High</span></td>
+          <td>Article 15</td>
+        </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gaps -->
+  
+  <div class="section">
+    <h2>Compliance Gaps</h2>
+
+    
+    <div class="gap-card critical">
+      <div class="gap-title">[CRITICAL] Verify that safeguards against automation bias are implemented, especially for decision-support systems.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-014-04B-001 &bull; Requirement: REQ-EU-AI-ACT-014-04B-001 &bull; Article 14</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Implement automation bias safeguards such as mandatory confirmation steps, uncertainty indicators, or periodic human-only reviews.</div>
+    </div>
+    
+    <div class="gap-card critical">
+      <div class="gap-title">[CRITICAL] Verify that accuracy is measured using disaggregated metrics across relevant demographic groups.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-015-02A-001 &bull; Requirement: REQ-EU-AI-ACT-015-02A-001 &bull; Article 15</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Measure and declare accuracy using disaggregated metrics across relevant demographic groups.</div>
+    </div>
+    
+
+    
+    <div class="gap-card high">
+      <div class="gap-title">[HIGH] Verify that risks from foreseeable misuse have been estimated and evaluated.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-009-02B-001 &bull; Requirement: REQ-EU-AI-ACT-009-02B-001 &bull; Article 9</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Conduct a misuse scenario analysis and document risk estimates for each foreseeable misuse case.</div>
+    </div>
+    
+    <div class="gap-card high">
+      <div class="gap-title">[HIGH] Verify that technical documentation contains at minimum the elements set out in Annex IV.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-011-01C-001 &bull; Requirement: REQ-EU-AI-ACT-011-01C-001 &bull; Article 11</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Review documentation against Annex IV checklist and add any missing elements.</div>
+    </div>
+    
+    <div class="gap-card high">
+      <div class="gap-title">[HIGH] Verify that the system is designed to ensure operation is transparent enough for deployers to interpret output.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-013-01-001 &bull; Requirement: REQ-EU-AI-ACT-013-01-001 &bull; Article 13</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Design the system with output explanations, confidence scores, or feature attribution to ensure transparency.</div>
+    </div>
+    
+
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that risk management measures consider interaction effects and achieve appropriate balance.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-009-03-001 &bull; Requirement: REQ-EU-AI-ACT-009-03-001 &bull; Article 9</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Document how risk management measures interact with each other and demonstrate an appropriate balance.</div>
+    </div>
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that testing is carried out against prior defined metrics and probabilistic thresholds.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-009-06-001 &bull; Requirement: REQ-EU-AI-ACT-009-06-001 &bull; Article 9</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Define explicit metrics and probabilistic thresholds for all testing procedures.</div>
+    </div>
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that data-preparation processing operations are documented.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-010-02B-001 &bull; Requirement: REQ-EU-AI-ACT-010-02B-001 &bull; Article 10</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Document all data-preparation operations including annotation, labelling, cleaning and enrichment procedures.</div>
+    </div>
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that logging capabilities conform to recognised standards or common specifications.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-012-03-001 &bull; Requirement: REQ-EU-AI-ACT-012-03-001 &bull; Article 12</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Align logging capabilities with recognised standards such as ISO 27001 or equivalent.</div>
+    </div>
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that logging facilitates post-market monitoring as per Article 72.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-012-04B-001 &bull; Requirement: REQ-EU-AI-ACT-012-04B-001 &bull; Article 12</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Implement logging features that support post-market monitoring requirements.</div>
+    </div>
+    
+    <div class="gap-card medium">
+      <div class="gap-title">[MEDIUM] Verify that logging records usage periods, reference databases, and verification personnel.</div>
+      <div class="gap-meta">Rule: RULE-EU-AI-ACT-012-04C-001 &bull; Requirement: REQ-EU-AI-ACT-012-04C-001 &bull; Article 12</div>
+      <div class="gap-remediation"><strong>Remediation:</strong> Add logging of usage sessions, reference database checks, and human verification records.</div>
+    </div>
+    
+  </div>
+  
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    DISCLAIMER: This report is an engineering interpretation of regulatory requirements. It does not constitute legal advice. Consult qualified legal professionals for authoritative compliance determinations.
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Generated by RegulationCoder v0.1.0
+  </div>
+
+</div>
+</body>
+</html>

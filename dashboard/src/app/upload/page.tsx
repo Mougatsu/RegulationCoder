@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   Upload,
   FileUp,
@@ -9,8 +10,6 @@ import {
   CheckCircle2,
   XCircle,
   Loader2,
-  ArrowLeft,
-  Gavel,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +20,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PageTransition } from "@/components/motion/PageTransition";
+import { FadeIn } from "@/components/motion/FadeIn";
 import { uploadRegulation } from "@/lib/api";
 
 type UploadStatus = "idle" | "uploading" | "processing" | "success" | "error";
@@ -53,7 +54,6 @@ export default function UploadPage() {
   };
 
   const simulatePipeline = useCallback(async () => {
-    // Simulate pipeline progress (in production, this would poll the backend)
     for (let i = 1; i < 5; i++) {
       await new Promise((r) => setTimeout(r, 800 + Math.random() * 600));
       updateStep(i, "running");
@@ -75,7 +75,6 @@ export default function UploadPage() {
       updateStep(0, "done");
       setStatus("processing");
 
-      // Simulate remaining pipeline steps
       await simulatePipeline();
 
       setResultId(result.id);
@@ -84,7 +83,6 @@ export default function UploadPage() {
       const msg = err instanceof Error ? err.message : "Upload failed";
       setErrorMsg(msg);
       setStatus("error");
-      // Mark current running step as error
       setPipelineSteps((prev) =>
         prev.map((s) =>
           s.status === "running" ? { ...s, status: "error" } : s
@@ -116,243 +114,251 @@ export default function UploadPage() {
   const isValidType = ["PDF", "HTML", "HTM"].includes(fileExtension);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center gap-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Gavel className="h-5 w-5 text-primary" />
-            <span className="font-semibold">RegulationCoder</span>
-          </div>
-          <span className="text-muted-foreground">/</span>
-          <span className="text-sm font-medium">Upload</span>
-        </div>
-      </header>
-
-      <main className="container flex-1 py-8">
+    <PageTransition>
+      <div className="container py-8">
         <div className="mx-auto max-w-2xl space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Upload Regulation
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              Upload a regulation document (PDF or HTML) to begin the compliance
-              analysis pipeline.
-            </p>
-          </div>
+          <FadeIn>
+            <div>
+              <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
+                Upload Regulation
+              </h1>
+              <p className="mt-2 text-muted-foreground">
+                Upload a regulation document (PDF or HTML) to begin the compliance
+                analysis pipeline.
+              </p>
+            </div>
+          </FadeIn>
 
           {/* Drop Zone */}
-          <Card>
-            <CardContent className="pt-6">
-              <div
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onClick={() => inputRef.current?.click()}
-                className={`
-                  flex cursor-pointer flex-col items-center justify-center
-                  rounded-lg border-2 border-dashed p-12 transition-colors
-                  ${
-                    dragOver
-                      ? "border-primary bg-primary/5"
-                      : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
-                  }
-                `}
-              >
-                <input
-                  ref={inputRef}
-                  type="file"
-                  accept=".pdf,.html,.htm"
-                  className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) {
-                      setFile(f);
-                      setStatus("idle");
+          <FadeIn delay={0.1}>
+            <Card>
+              <CardContent className="pt-6">
+                <div
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onClick={() => inputRef.current?.click()}
+                  className={`
+                    flex cursor-pointer flex-col items-center justify-center
+                    rounded-xl border-2 border-dashed p-12 transition-all duration-300
+                    ${
+                      dragOver
+                        ? "border-primary bg-primary/5 scale-[1.01]"
+                        : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
                     }
-                  }}
-                />
-                <FileUp className="mb-4 h-12 w-12 text-muted-foreground" />
-                <p className="text-sm font-medium">
-                  Drag and drop your regulation file here
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  or click to browse -- PDF, HTML supported
-                </p>
-              </div>
-
-              {/* Selected File */}
-              {file && (
-                <div className="mt-4 flex items-center justify-between rounded-lg border bg-muted/30 p-4">
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-8 w-8 text-primary" />
-                    <div>
-                      <p className="text-sm font-medium">{file.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {(file.size / 1024).toFixed(1)} KB
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant={isValidType ? "info" : "danger"}
-                    >
-                      {fileExtension}
-                    </Badge>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFile(null);
-                        setStatus("idle");
-                      }}
-                    >
-                      <XCircle className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Upload Button */}
-              <div className="mt-6 flex justify-center">
-                <Button
-                  size="lg"
-                  className="gap-2"
-                  disabled={
-                    !file ||
-                    !isValidType ||
-                    status === "uploading" ||
-                    status === "processing"
-                  }
-                  onClick={handleUpload}
+                  `}
                 >
-                  {status === "uploading" || status === "processing" ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      {status === "uploading"
-                        ? "Uploading..."
-                        : "Processing..."}
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="h-5 w-5" />
-                      Upload &amp; Process
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                  <input
+                    ref={inputRef}
+                    type="file"
+                    accept=".pdf,.html,.htm"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) {
+                        setFile(f);
+                        setStatus("idle");
+                      }
+                    }}
+                  />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 mb-4">
+                    <FileUp className="h-8 w-8 text-primary" />
+                  </div>
+                  <p className="text-sm font-medium">
+                    Drag and drop your regulation file here
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    or click to browse &mdash; PDF, HTML supported
+                  </p>
+                </div>
+
+                {/* Selected File */}
+                {file && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 flex items-center justify-between rounded-xl border bg-muted/30 p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FileText className="h-8 w-8 text-primary" />
+                      <div>
+                        <p className="text-sm font-medium">{file.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {(file.size / 1024).toFixed(1)} KB
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant={isValidType ? "info" : "danger"}
+                      >
+                        {fileExtension}
+                      </Badge>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFile(null);
+                          setStatus("idle");
+                        }}
+                      >
+                        <XCircle className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Upload Button */}
+                <div className="mt-6 flex justify-center">
+                  <Button
+                    size="lg"
+                    className="gap-2 rounded-xl px-8 shadow-lg shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
+                    disabled={
+                      !file ||
+                      !isValidType ||
+                      status === "uploading" ||
+                      status === "processing"
+                    }
+                    onClick={handleUpload}
+                  >
+                    {status === "uploading" || status === "processing" ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        {status === "uploading"
+                          ? "Uploading..."
+                          : "Processing..."}
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-5 w-5" />
+                        Upload &amp; Process
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </FadeIn>
 
           {/* Pipeline Progress */}
           {status !== "idle" && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Pipeline Progress</CardTitle>
-                <CardDescription>
-                  Processing your regulation document through the analysis
-                  pipeline
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {pipelineSteps.map((step, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center">
-                        {step.status === "done" && (
-                          <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                        )}
-                        {step.status === "running" && (
-                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                        )}
-                        {step.status === "error" && (
-                          <XCircle className="h-5 w-5 text-red-500" />
-                        )}
-                        {step.status === "pending" && (
-                          <div className="h-3 w-3 rounded-full border-2 border-muted-foreground/30" />
-                        )}
-                      </div>
-                      <span
-                        className={`text-sm ${
-                          step.status === "done"
-                            ? "text-foreground"
-                            : step.status === "running"
-                            ? "text-primary font-medium"
-                            : step.status === "error"
-                            ? "text-red-500"
-                            : "text-muted-foreground"
-                        }`}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Pipeline Progress</CardTitle>
+                  <CardDescription>
+                    Processing your regulation document through the analysis
+                    pipeline
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {pipelineSteps.map((step, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="flex items-center gap-3"
                       >
-                        {step.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Result */}
-                {status === "success" && (
-                  <div className="mt-6 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                      <span className="font-medium text-emerald-500">
-                        Processing Complete
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Regulation ID:{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
-                        {resultId}
-                      </code>
-                    </p>
-                    <div className="mt-3 flex gap-2">
-                      <Link href="/requirements">
-                        <Button size="sm" variant="outline">
-                          View Requirements
-                        </Button>
-                      </Link>
-                      <Link href="/rules">
-                        <Button size="sm" variant="outline">
-                          View Rules
-                        </Button>
-                      </Link>
-                    </div>
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center">
+                          {step.status === "done" && (
+                            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                          )}
+                          {step.status === "running" && (
+                            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                          )}
+                          {step.status === "error" && (
+                            <XCircle className="h-5 w-5 text-red-500" />
+                          )}
+                          {step.status === "pending" && (
+                            <div className="h-3 w-3 rounded-full border-2 border-muted-foreground/30" />
+                          )}
+                        </div>
+                        <span
+                          className={`text-sm ${
+                            step.status === "done"
+                              ? "text-foreground"
+                              : step.status === "running"
+                              ? "text-primary font-medium"
+                              : step.status === "error"
+                              ? "text-red-500"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {step.label}
+                        </span>
+                      </motion.div>
+                    ))}
                   </div>
-                )}
 
-                {/* Error */}
-                {status === "error" && (
-                  <div className="mt-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4">
-                    <div className="flex items-center gap-2">
-                      <XCircle className="h-5 w-5 text-red-500" />
-                      <span className="font-medium text-red-500">
-                        Processing Failed
-                      </span>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {errorMsg}
-                    </p>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="mt-3"
-                      onClick={handleUpload}
+                  {/* Result */}
+                  {status === "success" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4"
                     >
-                      Retry
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                        <span className="font-medium text-emerald-500">
+                          Processing Complete
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Regulation ID:{" "}
+                        <code className="rounded-lg bg-muted px-1.5 py-0.5 font-mono text-xs">
+                          {resultId}
+                        </code>
+                      </p>
+                      <div className="mt-3 flex gap-2">
+                        <Link href="/requirements">
+                          <Button size="sm" variant="outline" className="rounded-xl">
+                            View Requirements
+                          </Button>
+                        </Link>
+                        <Link href="/rules">
+                          <Button size="sm" variant="outline" className="rounded-xl">
+                            View Rules
+                          </Button>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Error */}
+                  {status === "error" && (
+                    <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+                      <div className="flex items-center gap-2">
+                        <XCircle className="h-5 w-5 text-red-500" />
+                        <span className="font-medium text-red-500">
+                          Processing Failed
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {errorMsg}
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="mt-3 rounded-xl"
+                        onClick={handleUpload}
+                      >
+                        Retry
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </PageTransition>
   );
 }

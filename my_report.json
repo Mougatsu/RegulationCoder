@@ -1,0 +1,1284 @@
+{
+  "id": "RPT-eu-ai-act-v1-20260212223719",
+  "regulation_id": "eu-ai-act-v1",
+  "regulation_version": "",
+  "system_name": "TalentScreen AI",
+  "provider_name": "TalentTech GmbH",
+  "evaluation_date": "2026-02-12T22:37:19.100222Z",
+  "summary": {
+    "total_rules": 53,
+    "passed": 40,
+    "failed": 11,
+    "not_applicable": 2,
+    "manual_review": 0,
+    "compliance_score": 78.4
+  },
+  "rule_results": [
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-01-001",
+      "title": "Risk management system must be established",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that a risk management system has been established, implemented, documented and maintained.",
+      "remediation": "Establish a formal risk management system covering the full lifecycle of the AI system.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para1",
+          "article_ref": "Article 9",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "A risk management system shall be established, implemented, documented and maintained"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-02-001",
+      "title": "Risk management must be continuous and iterative",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the risk management system is a continuous iterative process throughout the AI system lifecycle.",
+      "remediation": "Implement continuous risk monitoring with periodic reviews and updates throughout the system lifecycle.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para2",
+          "article_ref": "Article 9",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "continuous iterative process planned and run throughout the entire lifecycle"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-02A-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-02A-001",
+      "title": "Known and foreseeable risks must be identified",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the provider has identified and analyzed known and reasonably foreseeable risks to health, safety or fundamental rights.",
+      "remediation": "Document all known and reasonably foreseeable risks with a formal risk identification and analysis process.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para2/sub-a",
+          "article_ref": "Article 9",
+          "paragraph_ref": "2",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "identification and analysis of the known and reasonably foreseeable risks"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-02B-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-02B-001",
+      "title": "Foreseeable misuse risks must be evaluated",
+      "verdict": "fail",
+      "severity": "high",
+      "details": "Verify that risks from foreseeable misuse have been estimated and evaluated.",
+      "remediation": "Conduct a misuse scenario analysis and document risk estimates for each foreseeable misuse case.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para2/sub-b",
+          "article_ref": "Article 9",
+          "paragraph_ref": "2",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "estimation and evaluation of the risks that may emerge"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-02C-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-02C-001",
+      "title": "Risk management measures must be adopted",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that appropriate and targeted risk management measures have been adopted.",
+      "remediation": "Define and implement at least two risk management measures that address the identified risks.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para2/sub-c",
+          "article_ref": "Article 9",
+          "paragraph_ref": "2",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "adoption of appropriate and targeted risk management measures"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-03-001",
+      "title": "Risk measures interaction must be assessed",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that risk management measures consider interaction effects and achieve appropriate balance.",
+      "remediation": "Document how risk management measures interact with each other and demonstrate an appropriate balance.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para3",
+          "article_ref": "Article 9",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "give due consideration to the effects and possible interaction of the measures"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-05-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-05-001",
+      "title": "System testing procedures must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the system has been tested with documented procedures to identify risk management measures.",
+      "remediation": "Implement and document testing procedures to identify the most appropriate risk management measures.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para5",
+          "article_ref": "Article 9",
+          "paragraph_ref": "5",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "High-risk AI systems shall be tested"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-06-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-06-001",
+      "title": "Testing must use defined metrics and thresholds",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that testing is carried out against prior defined metrics and probabilistic thresholds.",
+      "remediation": "Define explicit metrics and probabilistic thresholds for all testing procedures.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para6",
+          "article_ref": "Article 9",
+          "paragraph_ref": "6",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "Testing shall be carried out against prior defined metrics and probabilistic thresholds"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-02-001",
+      "title": "Data governance practices must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that data governance and management practices are documented and appropriate for the intended purpose.",
+      "remediation": "Document data governance and management practices covering the full data lifecycle.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para2",
+          "article_ref": "Article 10",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "subject to data governance and management practices"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-02A-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-02A-001",
+      "title": "Data collection process must be documented",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that data collection processes and data origin are documented.",
+      "remediation": "Document data collection processes including sources, methods, and original purpose.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para2/sub-a",
+          "article_ref": "Article 10",
+          "paragraph_ref": "2",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "data collection processes and their origin"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-02B-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-02B-001",
+      "title": "Data preprocessing operations must be documented",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that data-preparation processing operations are documented.",
+      "remediation": "Document all data-preparation operations including annotation, labelling, cleaning and enrichment procedures.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para2/sub-b",
+          "article_ref": "Article 10",
+          "paragraph_ref": "2",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "data-preparation processing operations"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-03-001",
+      "title": "Training data relevance must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that training data relevance for the intended purpose is documented.",
+      "remediation": "Document how training datasets are relevant and representative for the intended purpose.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para3",
+          "article_ref": "Article 10",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "relevant, sufficiently representative, and to the best extent possible, free of errors"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-04-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-04-001",
+      "title": "Data representativeness for deployment context must be documented",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that datasets account for the geographical, contextual and functional settings of deployment.",
+      "remediation": "Document how training data accounts for the specific deployment context and population characteristics.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para4",
+          "article_ref": "Article 10",
+          "paragraph_ref": "4",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "characteristics or elements that are particular to the specific geographical, contextual, behavioural or functional setting"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-02F-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-02F-001",
+      "title": "Bias examination must cover health, safety, fundamental rights and discrimination",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that a bias examination has been conducted covering health/safety, fundamental rights, and prohibited discrimination.",
+      "remediation": "Conduct a comprehensive bias examination covering health/safety impacts, fundamental rights implications, and prohibited discrimination grounds.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para2/sub-f",
+          "article_ref": "Article 10",
+          "paragraph_ref": "2",
+          "subsection_ref": "f",
+          "page_number": null,
+          "exact_quote": "examination in view of possible biases"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-05-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-05-001",
+      "title": "Special category data processing must have appropriate safeguards",
+      "verdict": "not_applicable",
+      "severity": "high",
+      "details": "Verify that processing of special categories of personal data is strictly necessary and has appropriate safeguards.",
+      "remediation": "Implement appropriate safeguards for any processing of special categories of personal data.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para5",
+          "article_ref": "Article 10",
+          "paragraph_ref": "5",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "appropriate safeguards for the fundamental rights and freedoms"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-01-001",
+      "title": "Datasets meeting quality criteria must be used",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that training, validation and testing datasets are identified and meet quality criteria.",
+      "remediation": "Identify and document all training, validation and testing datasets with their quality criteria.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para1",
+          "article_ref": "Article 10",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "training, validation and testing data sets that meet the quality criteria"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01-001",
+      "title": "Technical documentation must exist before market placement",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that technical documentation has been drawn up before the AI system is placed on the market.",
+      "remediation": "Create comprehensive technical documentation in accordance with Annex IV before placing the system on the market.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "technical documentation shall be drawn up before that system is placed on the market"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01-002",
+      "requirement_id": "REQ-EU-AI-ACT-011-01-002",
+      "title": "Technical documentation must be kept up to date",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that technical documentation is kept up to date throughout the system lifecycle.",
+      "remediation": "Establish a process for regularly updating technical documentation when changes occur.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "shall be kept up to date"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01A-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01A-001",
+      "title": "Documentation must demonstrate compliance",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that technical documentation demonstrates compliance with Chapter III Section 2 requirements.",
+      "remediation": "Ensure documentation explicitly addresses and demonstrates compliance with each requirement.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1/sub-a",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "demonstrate that the high-risk AI system complies"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01B-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01B-001",
+      "title": "Documentation must be available to authorities",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that documentation provides authorities with all necessary compliance information.",
+      "remediation": "Ensure documentation is accessible and provides sufficient information for authority review.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1/sub-b",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "provide national competent authorities"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01C-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01C-001",
+      "title": "Documentation must contain Annex IV minimum elements",
+      "verdict": "fail",
+      "severity": "high",
+      "details": "Verify that technical documentation contains at minimum the elements set out in Annex IV.",
+      "remediation": "Review documentation against Annex IV checklist and add any missing elements.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1/sub-c",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "contain, at a minimum, the elements set out in Annex IV"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01D-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01D-001",
+      "title": "Documentation must be clear and comprehensive",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that documentation is written in a clear, comprehensive, and intelligible form.",
+      "remediation": "Ensure documentation uses clear language, logical structure, and is understandable by technical experts.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1/sub-d",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": "d",
+          "page_number": null,
+          "exact_quote": "clear, comprehensive, and intelligible form"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01-003",
+      "requirement_id": "REQ-EU-AI-ACT-011-01-003",
+      "title": "Technical documentation must be accessible at a known location",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that technical documentation is accessible (e.g., URL or internal repository).",
+      "remediation": "Provide a URL or internal reference to the location where documentation can be accessed.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "technical documentation shall be drawn up"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-01-001",
+      "title": "Automatic event logging must be enabled",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that the system technically supports automatic recording of events (logs).",
+      "remediation": "Implement automatic event logging throughout the system lifecycle.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para1",
+          "article_ref": "Article 12",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "shall technically allow for the automatic recording of events"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-02-001",
+      "title": "Risk-relevant events must be logged",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that logging captures events relevant to risk identification.",
+      "remediation": "Add logging for risk-relevant events including anomalies, errors, and safety-critical decisions.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para2",
+          "article_ref": "Article 12",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "recording of events relevant to the identification of situations"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-03-001",
+      "title": "Logging must conform to recognised standards",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that logging capabilities conform to recognised standards or common specifications.",
+      "remediation": "Align logging capabilities with recognised standards such as ISO 27001 or equivalent.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para3",
+          "article_ref": "Article 12",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "conform to recognised standards or common specifications"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04-001",
+      "title": "Logging must ensure lifecycle traceability",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that logging capabilities ensure traceability throughout the system lifecycle.",
+      "remediation": "Implement comprehensive logging covering all lifecycle stages with sufficient detail for traceability.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "traceability of the AI system's functioning throughout its lifecycle"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04A-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04A-001",
+      "title": "Logging must enable operational monitoring",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that logging enables monitoring of the AI system operation.",
+      "remediation": "Add operational monitoring capabilities to the logging system.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4/sub-a",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "enable the monitoring of the operation"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04B-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04B-001",
+      "title": "Logging must facilitate post-market monitoring",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that logging facilitates post-market monitoring as per Article 72.",
+      "remediation": "Implement logging features that support post-market monitoring requirements.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4/sub-b",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "facilitate the post-market monitoring"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04C-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04C-001",
+      "title": "Usage periods and verification personnel must be recorded",
+      "verdict": "fail",
+      "severity": "medium",
+      "details": "Verify that logging records usage periods, reference databases, and verification personnel.",
+      "remediation": "Add logging of usage sessions, reference database checks, and human verification records.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4/sub-c",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "recording of the period of each use of the system"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-01-001",
+      "title": "System operation must be sufficiently transparent",
+      "verdict": "fail",
+      "severity": "high",
+      "details": "Verify that the system is designed to ensure operation is transparent enough for deployers to interpret output.",
+      "remediation": "Design the system with output explanations, confidence scores, or feature attribution to ensure transparency.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para1",
+          "article_ref": "Article 13",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "operation is sufficiently transparent"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-02-001",
+      "title": "Instructions for use must be provided",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that instructions for use are provided in an appropriate digital format.",
+      "remediation": "Create comprehensive instructions for use in digital format for deployers.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para2",
+          "article_ref": "Article 13",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "accompanied by instructions for use in an appropriate digital format"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-03A-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-03A-001",
+      "title": "Provider identity must be included in instructions",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that provider identity and contact details are included in instructions.",
+      "remediation": "Include complete provider identity and contact details in the instructions for use.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para3/sub-a",
+          "article_ref": "Article 13",
+          "paragraph_ref": "3",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "identity and the contact details of the provider"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-03B-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-03B-001",
+      "title": "System capabilities and limitations must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that system characteristics, capabilities and limitations of performance are documented.",
+      "remediation": "Document all system capabilities, limitations, and known performance boundaries.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para3/sub-b",
+          "article_ref": "Article 13",
+          "paragraph_ref": "3",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "characteristics, capabilities and limitations of performance"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-03D-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-03D-001",
+      "title": "Human oversight measures must be documented in instructions",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that human oversight measures are described in the instructions for use.",
+      "remediation": "Document human oversight measures in the instructions for use, including interpretation guidance.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para3/sub-d",
+          "article_ref": "Article 13",
+          "paragraph_ref": "3",
+          "subsection_ref": "d",
+          "page_number": null,
+          "exact_quote": "human oversight measures referred to in Article 14"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-03E-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-03E-001",
+      "title": "Intended purpose must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that intended purpose is clearly documented in instructions.",
+      "remediation": "Clearly document the intended purpose and foreseeable misuse circumstances.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para3/sub-e",
+          "article_ref": "Article 13",
+          "paragraph_ref": "3",
+          "subsection_ref": "e",
+          "page_number": null,
+          "exact_quote": "intended purpose of the AI system"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-03B-002",
+      "requirement_id": "REQ-EU-AI-ACT-013-03B-002",
+      "title": "Accuracy levels must be declared in instructions",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that accuracy levels are declared in the instructions for use.",
+      "remediation": "Declare specific accuracy levels and metrics in the instructions for use.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para3/sub-b",
+          "article_ref": "Article 13",
+          "paragraph_ref": "3",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "the level of accuracy"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-01-001",
+      "title": "Human oversight measures must be implemented",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that the system is designed with human oversight measures for natural persons.",
+      "remediation": "Implement human oversight measures including human-machine interface tools.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para1",
+          "article_ref": "Article 14",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "effectively overseen by natural persons"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-02-001",
+      "title": "Oversight must minimise risks effectively",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that human oversight measures are sufficient to minimise risks to health, safety and fundamental rights.",
+      "remediation": "Implement multiple oversight measures that specifically target identified risks.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para2",
+          "article_ref": "Article 14",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "minimising the risks to health, safety or fundamental rights"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04A-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04A-001",
+      "title": "Oversight personnel must understand system capabilities and limitations",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that oversight measures enable understanding of system capacities and limitations.",
+      "remediation": "Ensure limitations are documented and instructions for use are provided to oversight personnel.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-a",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "fully understand the capacities and limitations"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04B-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04B-001",
+      "title": "Automation bias safeguards must be implemented",
+      "verdict": "fail",
+      "severity": "critical",
+      "details": "Verify that safeguards against automation bias are implemented, especially for decision-support systems.",
+      "remediation": "Implement automation bias safeguards such as mandatory confirmation steps, uncertainty indicators, or periodic human-only reviews.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-b",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "automation bias"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04C-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04C-001",
+      "title": "Output interpretation tools must be available",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that tools and methods for correct interpretation of system output are available.",
+      "remediation": "Provide interpretation tools such as confidence scores, feature importance, or SHAP values.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-c",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "correctly interpret the high-risk AI system's output"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04D-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04D-001",
+      "title": "Human override capability must be available",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that humans can override, reverse or disregard the AI system's output.",
+      "remediation": "Implement mechanisms allowing human operators to override or reverse AI decisions.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-d",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "d",
+          "page_number": null,
+          "exact_quote": "override or reverse the output"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04E-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04E-001",
+      "title": "System interruption capability must be available",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that humans can interrupt or stop the AI system safely.",
+      "remediation": "Implement a 'stop' button or similar procedure that allows the system to halt safely.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-e",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "e",
+          "page_number": null,
+          "exact_quote": "interrupt the system through a 'stop' button"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-05-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-05-001",
+      "title": "Oversight personnel must be able to monitor system in use",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the system is provided to deployers in a way that enables proper monitoring.",
+      "remediation": "Provide monitoring dashboards or tools that enable oversight personnel to monitor system operation in real-time.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para5",
+          "article_ref": "Article 14",
+          "paragraph_ref": "5",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "enabled to properly monitor the system in use"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-01-001",
+      "title": "Accuracy metrics must be documented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that accuracy metrics have been documented demonstrating appropriate accuracy levels.",
+      "remediation": "Document accuracy metrics with benchmarks demonstrating appropriate performance levels.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para1",
+          "article_ref": "Article 15",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "achieve an appropriate level of accuracy"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-02-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-02-001",
+      "title": "Accuracy levels must be declared in instructions",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that accuracy levels and relevant metrics are declared in the instructions of use.",
+      "remediation": "Declare specific accuracy levels and metrics in the instructions for use.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para2",
+          "article_ref": "Article 15",
+          "paragraph_ref": "2",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "levels of accuracy and the relevant accuracy metrics shall be declared"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-02A-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-02A-001",
+      "title": "Disaggregated performance metrics must be provided",
+      "verdict": "fail",
+      "severity": "critical",
+      "details": "Verify that accuracy is measured using disaggregated metrics across relevant demographic groups.",
+      "remediation": "Measure and declare accuracy using disaggregated metrics across relevant demographic groups.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para2/sub-a",
+          "article_ref": "Article 15",
+          "paragraph_ref": "2",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "accuracy shall be measured and declared using disaggregated metrics"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-03-001",
+      "title": "Robustness measures must be implemented",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the system has robustness measures against errors, faults and inconsistencies.",
+      "remediation": "Implement robustness measures such as input validation, error handling, and redundancy.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para3",
+          "article_ref": "Article 15",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "resilient as possible regarding errors, faults or inconsistencies"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-03A-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-03A-001",
+      "title": "Technical and organisational robustness measures must be taken",
+      "verdict": "pass",
+      "severity": "medium",
+      "details": "Verify that technical and organisational measures ensure robustness including redundancy.",
+      "remediation": "Implement both technical and organisational robustness measures including redundancy solutions.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para3/sub-a",
+          "article_ref": "Article 15",
+          "paragraph_ref": "3",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "Technical and organisational measures shall be taken"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-04-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-04-001",
+      "title": "Adversarial testing must be performed",
+      "verdict": "pass",
+      "severity": "high",
+      "details": "Verify that the system has been tested for resilience against unauthorized manipulation.",
+      "remediation": "Perform adversarial testing to validate resilience against unauthorized third party manipulation.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para4",
+          "article_ref": "Article 15",
+          "paragraph_ref": "4",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "resilient against attempts by unauthorised third parties"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-04A-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-04A-001",
+      "title": "Cybersecurity measures must be appropriate",
+      "verdict": "pass",
+      "severity": "critical",
+      "details": "Verify that cybersecurity measures are implemented including defences against data/model poisoning and adversarial attacks.",
+      "remediation": "Implement comprehensive cybersecurity measures covering data poisoning, model poisoning, adversarial examples, and confidentiality attacks.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para4/sub-a",
+          "article_ref": "Article 15",
+          "paragraph_ref": "4",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "technical solutions aimed at ensuring the cybersecurity"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-05-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-05-001",
+      "title": "Feedback loop risks must be mitigated for continuous learning systems",
+      "verdict": "not_applicable",
+      "severity": "high",
+      "details": "Verify that continuous learning systems address feedback loop risks with mitigation measures.",
+      "remediation": "Implement feedback loop mitigation such as data drift monitoring, output monitoring, and retraining safeguards.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para5",
+          "article_ref": "Article 15",
+          "paragraph_ref": "5",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "feedback loops are duly addressed with appropriate mitigation measures"
+        }
+      ]
+    }
+  ],
+  "critical_gaps": [
+    {
+      "rule_id": "RULE-EU-AI-ACT-014-04B-001",
+      "requirement_id": "REQ-EU-AI-ACT-014-04B-001",
+      "description": "Verify that safeguards against automation bias are implemented, especially for decision-support systems.",
+      "severity": "critical",
+      "remediation": "Implement automation bias safeguards such as mandatory confirmation steps, uncertainty indicators, or periodic human-only reviews.",
+      "article_ref": "Article 14",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art14/para4/sub-b",
+          "article_ref": "Article 14",
+          "paragraph_ref": "4",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "automation bias"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-015-02A-001",
+      "requirement_id": "REQ-EU-AI-ACT-015-02A-001",
+      "description": "Verify that accuracy is measured using disaggregated metrics across relevant demographic groups.",
+      "severity": "critical",
+      "remediation": "Measure and declare accuracy using disaggregated metrics across relevant demographic groups.",
+      "article_ref": "Article 15",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art15/para2/sub-a",
+          "article_ref": "Article 15",
+          "paragraph_ref": "2",
+          "subsection_ref": "a",
+          "page_number": null,
+          "exact_quote": "accuracy shall be measured and declared using disaggregated metrics"
+        }
+      ]
+    }
+  ],
+  "high_gaps": [
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-02B-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-02B-001",
+      "description": "Verify that risks from foreseeable misuse have been estimated and evaluated.",
+      "severity": "high",
+      "remediation": "Conduct a misuse scenario analysis and document risk estimates for each foreseeable misuse case.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para2/sub-b",
+          "article_ref": "Article 9",
+          "paragraph_ref": "2",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "estimation and evaluation of the risks that may emerge"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-011-01C-001",
+      "requirement_id": "REQ-EU-AI-ACT-011-01C-001",
+      "description": "Verify that technical documentation contains at minimum the elements set out in Annex IV.",
+      "severity": "high",
+      "remediation": "Review documentation against Annex IV checklist and add any missing elements.",
+      "article_ref": "Article 11",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art11/para1/sub-c",
+          "article_ref": "Article 11",
+          "paragraph_ref": "1",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "contain, at a minimum, the elements set out in Annex IV"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-013-01-001",
+      "requirement_id": "REQ-EU-AI-ACT-013-01-001",
+      "description": "Verify that the system is designed to ensure operation is transparent enough for deployers to interpret output.",
+      "severity": "high",
+      "remediation": "Design the system with output explanations, confidence scores, or feature attribution to ensure transparency.",
+      "article_ref": "Article 13",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art13/para1",
+          "article_ref": "Article 13",
+          "paragraph_ref": "1",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "operation is sufficiently transparent"
+        }
+      ]
+    }
+  ],
+  "medium_gaps": [
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-03-001",
+      "description": "Verify that risk management measures consider interaction effects and achieve appropriate balance.",
+      "severity": "medium",
+      "remediation": "Document how risk management measures interact with each other and demonstrate an appropriate balance.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para3",
+          "article_ref": "Article 9",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "give due consideration to the effects and possible interaction of the measures"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-009-06-001",
+      "requirement_id": "REQ-EU-AI-ACT-009-06-001",
+      "description": "Verify that testing is carried out against prior defined metrics and probabilistic thresholds.",
+      "severity": "medium",
+      "remediation": "Define explicit metrics and probabilistic thresholds for all testing procedures.",
+      "article_ref": "Article 9",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art09/para6",
+          "article_ref": "Article 9",
+          "paragraph_ref": "6",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "Testing shall be carried out against prior defined metrics and probabilistic thresholds"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-010-02B-001",
+      "requirement_id": "REQ-EU-AI-ACT-010-02B-001",
+      "description": "Verify that data-preparation processing operations are documented.",
+      "severity": "medium",
+      "remediation": "Document all data-preparation operations including annotation, labelling, cleaning and enrichment procedures.",
+      "article_ref": "Article 10",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art10/para2/sub-b",
+          "article_ref": "Article 10",
+          "paragraph_ref": "2",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "data-preparation processing operations"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-03-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-03-001",
+      "description": "Verify that logging capabilities conform to recognised standards or common specifications.",
+      "severity": "medium",
+      "remediation": "Align logging capabilities with recognised standards such as ISO 27001 or equivalent.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para3",
+          "article_ref": "Article 12",
+          "paragraph_ref": "3",
+          "subsection_ref": null,
+          "page_number": null,
+          "exact_quote": "conform to recognised standards or common specifications"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04B-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04B-001",
+      "description": "Verify that logging facilitates post-market monitoring as per Article 72.",
+      "severity": "medium",
+      "remediation": "Implement logging features that support post-market monitoring requirements.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4/sub-b",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": "b",
+          "page_number": null,
+          "exact_quote": "facilitate the post-market monitoring"
+        }
+      ]
+    },
+    {
+      "rule_id": "RULE-EU-AI-ACT-012-04C-001",
+      "requirement_id": "REQ-EU-AI-ACT-012-04C-001",
+      "description": "Verify that logging records usage periods, reference databases, and verification personnel.",
+      "severity": "medium",
+      "remediation": "Add logging of usage sessions, reference database checks, and human verification records.",
+      "article_ref": "Article 12",
+      "citations": [
+        {
+          "clause_id": "eu-ai-act-v1/art12/para4/sub-c",
+          "article_ref": "Article 12",
+          "paragraph_ref": "4",
+          "subsection_ref": "c",
+          "page_number": null,
+          "exact_quote": "recording of the period of each use of the system"
+        }
+      ]
+    }
+  ],
+  "overall_verdict": "partial_compliance",
+  "disclaimer": "DISCLAIMER: This report is an engineering interpretation of regulatory requirements. It does not constitute legal advice. Consult qualified legal professionals for authoritative compliance determinations."
+}
